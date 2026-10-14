@@ -2,19 +2,374 @@
 
 :root {
   color-scheme: dark;
+
+  /* Monochrome color system */
   --background: #000000;
-  --foreground: #ededed;
+  --foreground: #fafafa;
+  --muted: #a1a1a1;
+  --border: #262626;
+
+  /* Font family (value supplied by next/font/google variable) */
+  --font-body: "Google Sans Flex", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-body);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0;
+  margin: 0;
+  max-width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Centered content container */
+main {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* Vertical rhythm between major sections */
+section {
+  margin-block: 0;
+}
+
+main > section + section,
+section + section {
+  margin-top: 48px;
+}
+
+p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 21px;
+  letter-spacing: 0;
+  color: var(--foreground);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* About description: slightly larger readable body text */
+.about-text {
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+.about-text li {
+  line-height: 24px;
+  margin-bottom: 8px;
+}
+
+.about-lead {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin: 0 0 12px;
+}
+
+/* Spacing between the profile header block and the About section */
+.about-section {
+  margin-top: 28px;
+}
+
+/* Secondary / project-description text */
+small,
+.text-secondary {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+/* Name text */
+h1 {
+  font-family: var(--font-body);
+  font-size: 23px;
+  line-height: 30px;
+  font-weight: 500;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+/* Section headings */
+h2,
+h3 {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--foreground);
+  margin: 0 0 16px;
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 21px;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--border);
+}
+
+a:hover {
+  color: var(--foreground);
+  text-decoration-color: var(--muted);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 6px;
+  line-height: 21px;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Compact project rows keep consistent spacing and alignment */
+.project-row {
+  padding-block: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.project-row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.project-row p {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 640px) {
+  main {
+    max-width: 100%;
+    padding-inline: 20px;
+  }
+}
+
+/*
+ * Profile avatar stack (pfp-*). Port of the motion-based PFP fan:
+ * rest/hover offsets, rotations and z-order copied 1:1; springs
+ * approximated with CSS easing. Plain scoped classes (not *.module.css)
+ * because this project's turbopack rule processes all CSS as global CSS.
+ */
+.pfp-stage {
+  --pfp-size: 88px;
+  position: relative;
+  width: var(--pfp-size);
+  height: var(--pfp-size);
+  flex-shrink: 0;
+}
+
+.pfp-slot {
+  position: absolute;
+  inset: 0;
+  width: var(--pfp-size);
+  height: var(--pfp-size);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 0;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+button.pfp-slot {
+  cursor: pointer;
+}
+
+.pfp-pic {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Rest state (copied values) */
+.pfp-pos0 {
+  z-index: 20;
+  transform: translate(0px, 0px) rotate(0deg);
+}
+.pfp-pos1 {
+  z-index: 5;
+  transform: translate(-4px, -4px) rotate(-40deg);
+}
+.pfp-pos2 {
+  z-index: 4;
+  transform: translate(-6px, 4px) rotate(-140deg);
+}
+.pfp-pos3 {
+  z-index: 3;
+  transform: translate(6px, 0px) rotate(40deg);
+}
+.pfp-pos4 {
+  z-index: 2;
+  transform: translate(2px, 5px) rotate(140deg);
+}
+
+/* Hover fan (copied values), staggered entrance */
+.pfp-stage:hover .pfp-pos1,
+.pfp-stage:focus-within .pfp-pos1 {
+  transform: translate(-45px, -70px) rotate(-5deg);
+  transition-delay: 50ms;
+}
+.pfp-stage:hover .pfp-pos2,
+.pfp-stage:focus-within .pfp-pos2 {
+  transform: translate(-55px, -25px) rotate(2deg);
+  transition-delay: 100ms;
+}
+.pfp-stage:hover .pfp-pos3,
+.pfp-stage:focus-within .pfp-pos3 {
+  transform: translate(50px, -25px) rotate(4deg);
+  transition-delay: 150ms;
+}
+.pfp-stage:hover .pfp-pos4,
+.pfp-stage:focus-within .pfp-pos4 {
+  transform: translate(35px, -70px) rotate(-2deg);
+  transition-delay: 200ms;
+}
+
+/* Active image: always centered, upright, on top */
+.pfp-main {
+  z-index: 30;
+  transform: none;
+  border-radius: 50%;
+}
+
+.pfp-main:focus,
+.pfp-thumb-btn:focus {
+  outline: none;
+}
+
+.pfp-main:focus-visible,
+.pfp-thumb-btn:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 4px;
+}
+
+/* Expanded gallery: full-width row below the header, straight images */
+.pfp-tray-wrap {
+  flex-basis: 100%;
+  order: 4;
+  min-width: 0;
+}
+
+.pfp-tray {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 4px;
+}
+
+.pfp-tray-item {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.pfp-thumb-btn {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.pfp-thumb {
+  display: block;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+}
+
+.pfp-thumb-btn:hover .pfp-thumb {
+  transform: translateY(-6px) scale(1.03);
+}
+
+.pfp-thumb-btn:active .pfp-thumb {
+  transform: scale(0.97);
+}
+
+@media (max-width: 640px) {
+  .pfp-stage {
+    --pfp-size: 76px;
+  }
+  .pfp-thumb {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pfp-slot,
+  .pfp-thumb {
+    transition: none;
+  }
 }
