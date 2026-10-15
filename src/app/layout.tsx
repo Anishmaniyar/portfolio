@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Google_Sans_Flex } from "next/font/google";
+import SoundProvider from "../components/SoundProvider";
 import "./globals.css";
 
 const bodyFont = Google_Sans_Flex({
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${bodyFont.variable} h-full antialiased`}
     >
-      <body suppressHydrationWarning className="min-h-full flex flex-col">{children}</body>
+      <body suppressHydrationWarning className="min-h-full flex flex-col"><SoundProvider />{children}</body>
     </html>
   );
 }

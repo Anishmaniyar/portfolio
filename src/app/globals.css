@@ -82,13 +82,17 @@ p:last-child {
 /* About description: slightly larger readable body text */
 .about-text {
   font-size: 15px;
-  line-height: 24px;
+  line-height: 23px;
   letter-spacing: 0;
+  color: var(--muted);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .about-text li {
-  line-height: 24px;
-  margin-bottom: 8px;
+  line-height: 23px;
+  margin-bottom: 4px;
 }
 
 .about-lead {
@@ -96,6 +100,7 @@ p:last-child {
   line-height: 24px;
   font-weight: 500;
   letter-spacing: 0;
+  color: var(--muted);
   margin: 0 0 12px;
 }
 
@@ -202,6 +207,566 @@ video {
   margin-bottom: 4px;
 }
 
+/* Work section: minimal horizontal project rows (no dividers) */
+.work-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.work-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 14px;
+  margin-inline: -14px;
+  border-radius: 14px;
+  transition: background-color 0.25s ease;
+}
+
+.work-row:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.work-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #101010;
+  color: var(--foreground);
+  transition: border-color 0.2s ease;
+}
+
+.work-row:hover .work-logo {
+  border-color: #3a3a3a;
+}
+
+.work-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.work-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.work-name {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.work-link {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.work-link:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.work-link .work-arrow {
+  display: inline-block;
+  transition: transform 0.22s ease;
+}
+
+.work-link:hover .work-arrow {
+  transform: translate(2px, -2px);
+}
+
+.work-link:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.work-desc {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.work-tech {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  color: var(--muted);
+}
+
+.work-tech li {
+  position: relative;
+  margin: 0;
+  line-height: 0;
+  border-radius: 4px;
+}
+
+.work-tech li svg {
+  transition: color 0.2s ease;
+}
+
+.work-tech li:hover svg,
+.work-tech li:focus-visible svg {
+  color: var(--brand, var(--foreground));
+}
+
+.work-tech li:focus {
+  outline: none;
+}
+
+.work-tech li:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+}
+
+/* Icon name tooltip (icons stay icon-only until hovered/focused) */
+.work-tech li::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 10;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: var(--foreground);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.work-tech li:hover::after,
+.work-tech li:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.work-tech svg {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-logo,
+  .work-link,
+  .work-row,
+  .work-tech li::after {
+    transition: none;
+  }
+}
+
+/* Connect row text: same muted tone, slightly larger */
+.connect-text {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--muted);
+}
+
+/* Skills section: compact table-like category list */
+.skills-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.skills-head h2 {
+  margin: 0;
+}
+
+.see-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.see-more:hover {
+  color: var(--foreground);
+}
+
+.see-more:focus {
+  outline: none;
+}
+
+.see-more:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.see-more-chevron {
+  transition: transform 0.2s ease;
+}
+
+.see-more.open .see-more-chevron {
+  transform: rotate(180deg);
+}
+
+.skills-table {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding-block: 10px;
+}
+
+.skill-cat {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 17px;
+}
+
+.skill-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.skill-items li {
+  margin: 0;
+}
+
+.skill-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 1px 0;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 17px;
+  transition: color 0.2s ease;
+}
+
+.skill-item svg {
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.skill-item:hover,
+.skill-item:focus-visible {
+  color: var(--foreground);
+}
+
+.skill-item:hover span,
+.skill-item:focus-visible span {
+  color: var(--foreground);
+}
+
+.skill-item:hover svg,
+.skill-item:focus-visible svg {
+  color: var(--brand);
+}
+
+.skill-item:focus {
+  outline: none;
+}
+
+.skill-item:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+}
+
+/* Expand/collapse region for extra skills */
+.skills-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.skills-more.open {
+  grid-template-rows: 1fr;
+}
+
+.skills-more-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (max-width: 640px) {
+  .skill-row {
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .skill-items {
+    gap: 8px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .see-more,
+  .see-more-chevron,
+  .skill-item,
+  .skill-item svg,
+  .skills-more {
+    transition: none;
+  }
+}
+
+/* Case study pages: same type scale, muted tones, restrained boxes */
+.cs-back {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: color 0.2s ease;
+}
+
+.cs-back:hover {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.cs-hero {
+  margin-bottom: 24px;
+}
+
+.cs-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cs-hero-main {
+  min-width: 0;
+}
+
+.cs-hero h1 {
+  margin-bottom: 8px;
+}
+
+.cs-tagline {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.cs-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.cs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--foreground);
+  font-size: 13px;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.cs-btn:hover {
+  border-color: #3a3a3a;
+  background-color: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .cs-hero-top {
+    flex-direction: column;
+  }
+
+  .cs-actions {
+    padding-top: 0;
+  }
+}
+
+.cs-visual {
+  margin: 0 0 8px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.cs-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cs-visual-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  padding: 24px;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.cs-body {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.cs-diagram {
+  margin: 4px 0 16px;
+  color: var(--muted);
+}
+
+.cs-node {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0d0d0d;
+  padding: 10px 14px;
+}
+
+.cs-node-title {
+  font-size: 13px;
+  line-height: 21px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.cs-node-sub {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.cs-arrow {
+  display: flex;
+  justify-content: center;
+  padding-block: 6px;
+  line-height: 0;
+}
+
+.cs-highlight {
+  margin-bottom: 16px;
+}
+
+.cs-highlight:last-child {
+  margin-bottom: 0;
+}
+
+.cs-highlight h3 {
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--foreground);
+  margin: 0 0 4px;
+}
+
+.cs-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 21px;
+}
+
+.cs-list li {
+  margin-bottom: 6px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.cs-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+.cs-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.cs-footer a {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cs-footer a:hover {
+  text-decoration: none;
+}
+
+.cs-nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-left: auto;
+}
+
 @media (max-width: 640px) {
   main {
     max-width: 100%;
@@ -210,17 +775,21 @@ video {
 }
 
 /*
- * Profile avatar stack (pfp-*). Port of the motion-based PFP fan:
- * rest/hover offsets, rotations and z-order copied 1:1; springs
- * approximated with CSS easing. Plain scoped classes (not *.module.css)
- * because this project's turbopack rule processes all CSS as global CSS.
+ * Profile photo stack (pfp-*). A compact stack of overlapping square
+ * photographs: the main portrait sits upright on top while four smaller
+ * photos peek out from behind. On hover the background photos spread
+ * outward slightly (never into a row or wide fan) and settle back on
+ * pointer leave. Offsets stay small so nothing escapes the header.
+ * Plain scoped classes (not *.module.css) because this project's
+ * turbopack rule processes all CSS as global CSS.
  */
 .pfp-stage {
-  --pfp-size: 88px;
+  --pfp-size: 60px;
   position: relative;
   width: var(--pfp-size);
   height: var(--pfp-size);
   flex-shrink: 0;
+  margin-right: 12px;
 }
 
 .pfp-slot {
@@ -232,7 +801,7 @@ video {
   border: 0;
   background: transparent;
   line-height: 0;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 button.pfp-slot {
@@ -244,58 +813,75 @@ button.pfp-slot {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  object-position: center;
+  border-radius: 14px;
 }
 
-/* Rest state (copied values) */
+/* Background slots center their smaller photo on the main portrait */
+.pfp-bg-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pfp-pic-bg {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+}
+
+/* Rest state: tightly overlapping, centers near the portrait center */
 .pfp-pos0 {
   z-index: 20;
   transform: translate(0px, 0px) rotate(0deg);
 }
 .pfp-pos1 {
   z-index: 5;
-  transform: translate(-4px, -4px) rotate(-40deg);
+  transform: translate(-4px, -4px) rotate(-12deg);
 }
 .pfp-pos2 {
   z-index: 4;
-  transform: translate(-6px, 4px) rotate(-140deg);
+  transform: translate(4px, -5px) rotate(12deg);
 }
 .pfp-pos3 {
   z-index: 3;
-  transform: translate(6px, 0px) rotate(40deg);
+  transform: translate(-5px, 4px) rotate(10deg);
 }
 .pfp-pos4 {
   z-index: 2;
-  transform: translate(2px, 5px) rotate(140deg);
+  transform: translate(5px, 5px) rotate(-10deg);
 }
 
-/* Hover fan (copied values), staggered entrance */
+/* Hover spread: diagonal outward from the portrait center, slightly
+   deeper rotation, substantial overlap kept, staggered unfolding */
 .pfp-stage:hover .pfp-pos1,
 .pfp-stage:focus-within .pfp-pos1 {
-  transform: translate(-45px, -70px) rotate(-5deg);
-  transition-delay: 50ms;
+  transform: translate(-22px, -20px) rotate(-20deg);
+  transition-delay: 0ms;
 }
 .pfp-stage:hover .pfp-pos2,
 .pfp-stage:focus-within .pfp-pos2 {
-  transform: translate(-55px, -25px) rotate(2deg);
-  transition-delay: 100ms;
+  transform: translate(22px, -18px) rotate(18deg);
+  transition-delay: 25ms;
 }
 .pfp-stage:hover .pfp-pos3,
 .pfp-stage:focus-within .pfp-pos3 {
-  transform: translate(50px, -25px) rotate(4deg);
-  transition-delay: 150ms;
+  transform: translate(-20px, 16px) rotate(14deg);
+  transition-delay: 50ms;
 }
 .pfp-stage:hover .pfp-pos4,
 .pfp-stage:focus-within .pfp-pos4 {
-  transform: translate(35px, -70px) rotate(-2deg);
-  transition-delay: 200ms;
+  transform: translate(20px, 18px) rotate(-16deg);
+  transition-delay: 75ms;
 }
 
 /* Active image: always centered, upright, on top */
 .pfp-main {
   z-index: 30;
   transform: none;
-  border-radius: 50%;
 }
 
 .pfp-main:focus,
@@ -335,17 +921,18 @@ button.pfp-slot {
   padding: 0;
   border: 0;
   background: transparent;
-  border-radius: 50%;
+  border-radius: 14px;
   line-height: 0;
   cursor: pointer;
 }
 
 .pfp-thumb {
   display: block;
-  width: 88px;
-  height: 88px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
-  border-radius: 50%;
+  object-position: center;
+  border-radius: 14px;
   transition: transform 0.25s ease;
 }
 
@@ -358,8 +945,22 @@ button.pfp-slot {
 }
 
 @media (max-width: 640px) {
-  .pfp-stage {
-    --pfp-size: 76px;
+  /* Tighter spread on small screens so nothing clips at the edges */
+  .pfp-stage:hover .pfp-pos1,
+  .pfp-stage:focus-within .pfp-pos1 {
+    transform: translate(-12px, -11px) rotate(-16deg);
+  }
+  .pfp-stage:hover .pfp-pos2,
+  .pfp-stage:focus-within .pfp-pos2 {
+    transform: translate(12px, -10px) rotate(15deg);
+  }
+  .pfp-stage:hover .pfp-pos3,
+  .pfp-stage:focus-within .pfp-pos3 {
+    transform: translate(-11px, 10px) rotate(13deg);
+  }
+  .pfp-stage:hover .pfp-pos4,
+  .pfp-stage:focus-within .pfp-pos4 {
+    transform: translate(11px, 11px) rotate(-13deg);
   }
   .pfp-thumb {
     width: 60px;
@@ -372,4 +973,22 @@ button.pfp-slot {
   .pfp-thumb {
     transition: none;
   }
+}
+
+/* Connect section rhythm */
+.connect-section {
+  margin-top: 28px;
+}
+
+/* Standalone icon links: no underline, icon only (overrides global `a`) */
+.connect-link {
+  text-decoration: none;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.connect-link:hover {
+  text-decoration: none;
+  color: var(--brand, var(--foreground));
 }

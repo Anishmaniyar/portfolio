@@ -7,17 +7,15 @@ import Image from "next/image";
 /* Plain pfp-* classes from globals.css (see the note there on why). */
 
 /*
- * Port of the original motion-based PFP stack. Rest/hover offsets, rotations
- * and z-order are copied 1:1 into AvatarStack.module.css (.pos0-.pos4);
- * springs are approximated with CSS easing (motion isn't installed here,
- * so no new dependency was added).
+ * Square photo stack. The active portrait renders upright on top while
+ * four background photos peek out from behind and spread slightly on
+ * hover. No motion library is installed, so easing is pure CSS.
  *
- * Image mapping (original static imports don't exist in this repo):
- *   profileImg1 (2.jpg)  -> /images/profile-image.jpg
- *   profileImg2 (3.jpg)  -> /images/avatars/morales.jpg
- *   profileImg3 (4.jpg)  -> /images/avatars/spider-gwen.jpg
- *   profileImg4 (14.jpg) -> /images/avatars/spidey.jpg
- *   profileImg5 (15.jpg) -> /images/avatars/spider-man.jpg
+ * NOTE — intended asset paths (not yet in this repo):
+ *   main portrait -> /images/profile.png
+ *   backgrounds   -> /images/avatars/avatar-1.png … avatar-4.png
+ * Until those files are added, the existing photographs below are
+ * used so nothing renders broken. Swap the `src` values only.
  */
 const GALLERY = [
   { src: "/images/profile-image.jpg", alt: "Anish" },
@@ -58,13 +56,15 @@ export default function AvatarStack() {
                 onClick={() => setIsExpanded(true)}
                 aria-expanded={false}
                 aria-label="Expand avatar collection"
+                data-cuelume-open=""
+                data-cuelume-emphasis="subtle"
                 className="pfp-slot pfp-main"
               >
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  width={176}
-                  height={176}
+                  width={120}
+                  height={120}
                   priority
                   className="pfp-pic"
                 />
@@ -73,14 +73,14 @@ export default function AvatarStack() {
               <div
                 key={image.src}
                 aria-hidden="true"
-                className={`pfp-slot ${POS_CLASSES[index]}`}
+                className={`pfp-slot pfp-bg-slot ${POS_CLASSES[index]}`}
               >
                 <Image
                   src={image.src}
                   alt=""
-                  width={176}
-                  height={176}
-                  className="pfp-pic"
+                  width={120}
+                  height={120}
+                  className="pfp-pic-bg"
                 />
               </div>
             ),
@@ -93,13 +93,15 @@ export default function AvatarStack() {
             onClick={() => setIsExpanded(false)}
             aria-expanded={true}
             aria-label="Collapse avatar collection"
+            data-cuelume-close=""
+            data-cuelume-emphasis="subtle"
             className="pfp-slot pfp-main"
           >
             <Image
               src={active.src}
               alt={active.alt}
-              width={176}
-              height={176}
+              width={120}
+              height={120}
               priority
               className="pfp-pic"
             />
@@ -120,13 +122,15 @@ export default function AvatarStack() {
                     type="button"
                     onClick={() => setActiveIndex(index)}
                     aria-label={`Show ${image.alt} as the profile picture`}
+                    data-cuelume-select=""
+                    data-cuelume-emphasis="subtle"
                     className="pfp-thumb-btn"
                   >
                     <Image
                       src={image.src}
                       alt=""
-                      width={176}
-                      height={176}
+                      width={208}
+                      height={208}
                       className="pfp-thumb"
                     />
                   </button>
