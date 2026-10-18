@@ -9,6 +9,17 @@
   --muted: #a1a1a1;
   --border: #262626;
 
+  /* Layout system. `--content-max` is the width of the centred content
+     column (see `main`); the rail tokens place the desktop "INDEX"
+     sidebar in the gutter to the right of that column. */
+  --content-max: 720px;
+  --rail-gap: 48px;
+  --rail-inset: 64px;
+  /* Offset of the desktop "INDEX" sidebar. Kept level with the profile
+     header (and the About block right under it) rather than starting at
+     the Work section. */
+  --rail-top: 64px;
+
   /* Font family (value supplied by next/font/google variable) */
   --font-body: "Google Sans Flex", sans-serif;
 }
@@ -52,7 +63,7 @@ body {
 /* Centered content container */
 main {
   width: 100%;
-  max-width: 720px;
+  max-width: var(--content-max);
   margin-inline: auto;
   padding-inline: 24px;
 }
@@ -79,20 +90,21 @@ p:last-child {
   margin-bottom: 0;
 }
 
-/* About description: slightly larger readable body text */
+/* About description: compact body text, even line rhythm */
 .about-text {
-  font-size: 15px;
-  line-height: 23px;
-  letter-spacing: 0;
-  color: var(--muted);
-  list-style: none;
   margin: 0;
-  padding: 0;
 }
 
-.about-text li {
-  line-height: 23px;
-  margin-bottom: 4px;
+.about-text p {
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
 }
 
 .about-lead {
@@ -106,7 +118,7 @@ p:last-child {
 
 /* Spacing between the profile header block and the About section */
 .about-section {
-  margin-top: 28px;
+  margin-top: 40px;
 }
 
 /* Secondary / project-description text */
@@ -221,7 +233,18 @@ video {
   padding: 18px 14px;
   margin-inline: -14px;
   border-radius: 14px;
-  transition: background-color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    opacity 0.25s ease;
+}
+
+/* Hovering the list dims the other projects so the active one stands out. */
+.work-list:hover .work-row {
+  opacity: 0.45;
+}
+
+.work-list:hover .work-row:hover {
+  opacity: 1;
 }
 
 .work-row:hover {
@@ -259,12 +282,18 @@ video {
 }
 
 .work-name {
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 13px;
+  line-height: 20px;
   font-weight: 500;
   letter-spacing: 0;
   color: var(--foreground);
   margin: 0;
+}
+
+/* Hovering the arrow underlines the project name it belongs to. */
+.work-top:has(.work-link:hover) .work-name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .work-link {
@@ -284,6 +313,7 @@ video {
 
 .work-link .work-arrow {
   display: inline-block;
+  font-weight: 700;
   transition: transform 0.22s ease;
 }
 
@@ -299,6 +329,7 @@ video {
 
 .work-desc {
   margin: 2px 0 0;
+  max-width: 82%;
   font-size: 13px;
   line-height: 20px;
   color: var(--muted);
@@ -385,8 +416,8 @@ video {
 
 /* Connect row text: same muted tone, slightly larger */
 .connect-text {
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 13px;
+  line-height: 20px;
   color: var(--muted);
 }
 
@@ -456,8 +487,8 @@ video {
 
 .skill-cat {
   color: var(--muted);
-  font-size: 15px;
-  line-height: 17px;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .skill-items {
@@ -482,28 +513,28 @@ video {
   padding: 1px 0;
   border-radius: 6px;
   color: var(--muted);
-  font-size: 15px;
-  line-height: 17px;
-  transition: color 0.2s ease;
+  font-size: 13px;
+  line-height: 20px;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .skill-item svg {
   display: block;
+  width: 16px;
+  height: 16px;
   transition: color 0.2s ease;
 }
 
 .skill-item:hover,
 .skill-item:focus-visible {
-  color: var(--foreground);
+  color: var(--brand);
+  transform: translateY(-1px);
 }
 
 .skill-item:hover span,
 .skill-item:focus-visible span {
-  color: var(--foreground);
-}
-
-.skill-item:hover svg,
-.skill-item:focus-visible svg {
   color: var(--brand);
 }
 
@@ -698,6 +729,45 @@ video {
   justify-content: center;
   padding-block: 6px;
   line-height: 0;
+}
+
+.cs-arch-figures {
+  display: grid;
+  gap: 20px;
+  margin: 8px 0 16px;
+}
+
+.cs-arch-figure {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.cs-arch-link {
+  display: block;
+  text-decoration: none;
+}
+
+.cs-arch-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 12px;
+  transition: opacity 0.2s ease;
+}
+
+.cs-arch-link:hover img {
+  opacity: 0.92;
+}
+
+.cs-arch-caption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 24px;
 }
 
 .cs-highlight {
@@ -975,9 +1045,9 @@ button.pfp-slot {
   }
 }
 
-/* Connect section rhythm */
+/* Connect section rhythm — same vertical rhythm as the About lines */
 .connect-section {
-  margin-top: 28px;
+  margin-top: 12px;
 }
 
 /* Standalone icon links: no underline, icon only (overrides global `a`) */
@@ -991,4 +1061,355 @@ button.pfp-slot {
 .connect-link:hover {
   text-decoration: none;
   color: var(--brand, var(--foreground));
+}
+
+/* Section-navigation sidebar on the home page. On desktop it is pinned
+   to the viewport in the gutter right of the centred content column:
+   its left edge keeps a fixed gap from that column and its right edge a
+   fixed inset from the viewport, both derived from the column's own
+   dimensions, so it never overlaps the content and holds up at every
+   width where it is shown. It starts level with the profile header and
+   About block rather than the Work section, and being fixed it never
+   travels with the project rows. Deliberately unstyled: no card
+   background, border, or shadow. */
+.home-rail {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  .home-rail {
+    display: block;
+    position: fixed;
+    top: var(--rail-top);
+    left: calc(50% + (var(--content-max) / 2) + var(--rail-gap));
+    right: var(--rail-inset);
+    z-index: 30;
+    /* Never squeeze the labels; the box stretches between the content
+       column and the viewport edge, the text stays left-aligned. */
+    min-width: max-content;
+  }
+}
+
+.index-title {
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.index-list li {
+  margin: 0;
+}
+
+.index-link {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.index-link:hover {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.index-link.is-active {
+  color: var(--foreground);
+}
+
+.index-link:focus {
+  outline: none;
+}
+
+.index-link:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-link {
+    transition: none;
+  }
+}
+
+/* About inline icon links (blog / email): hover highlight only, no card */
+.about-link {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: -3px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.about-link:hover {
+  color: var(--brand, var(--foreground));
+  text-decoration: none;
+}
+
+.about-link:focus {
+  outline: none;
+}
+
+.about-link:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Writing section: compact, typography-only article list */
+.writing-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.writing-row {
+  padding-block: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.writing-row:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.writing-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.writing-title {
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.writing-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.writing-link:hover {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.writing-ext {
+  flex-shrink: 0;
+  transform: translateY(1px);
+  opacity: 0.6;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.writing-link:hover .writing-ext {
+  opacity: 1;
+  transform: translate(2px, -1px);
+}
+
+.writing-link:focus {
+  outline: none;
+}
+
+.writing-link:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.writing-date {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.writing-desc {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.writing-empty {
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--muted);
+}
+
+/* Quote: a quiet closing thought above the footer */
+.quote-section {
+  padding-block: 40px 0;
+  text-align: center;
+}
+
+.quote {
+  margin: 0 auto;
+  max-width: none;
+}
+
+.quote-text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #f2ecdf;
+}
+
+.quote-attribution {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+/* Footer: two quiet columns — place/time left, views/copyright right */
+.site-footer {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding: 32px 0 40px;
+  font-size: 11px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.site-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.site-footer-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* Place + local time read semibold; the visitor label stays regular and
+   only the number is emphasised. */
+.site-footer-place,
+.site-footer-time {
+  font-weight: 600;
+}
+
+.site-footer-time {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.site-footer-views {
+  font-variant-numeric: tabular-nums;
+}
+
+.site-footer-count {
+  font-weight: 600;
+}
+
+/* 404 page: same quiet, monochrome language as the rest of the site.
+   Typographic only — no art, no icon, no card. */
+.notfound {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-block: 96px;
+}
+
+.notfound-code {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.notfound-title {
+  margin: 12px 0 0;
+  color: var(--foreground);
+}
+
+.notfound-text {
+  margin: 8px 0 0;
+  max-width: 34ch;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.notfound-link {
+  margin-top: 24px;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--border);
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.notfound-link:hover {
+  text-decoration-color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .writing-row {
+    padding-block: 12px;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 0 32px;
+  }
+
+  .site-footer-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-link,
+  .writing-link,
+  .writing-ext {
+    transition: none;
+  }
 }

@@ -87,7 +87,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
 
       <section aria-labelledby={`${study.slug}-architecture`}>
         <h2 id={`${study.slug}-architecture`}>Architecture</h2>
-        <ArchitectureDiagram nodes={study.diagram} name={study.name} />
+        <ArchitectureDiagram images={study.architectureImages} />
         <p className="cs-body">{study.flow}</p>
       </section>
 

@@ -228,6 +228,7 @@ export default function ConnectRow() {
                 aria-label={`${profile.label} profile`}
                 className="connect-link text-foreground opacity-70 transition-opacity duration-200 hover:opacity-100"
                 data-cuelume-tap=""
+                data-cuelume-hover=""
                 data-cuelume-emphasis="subtle"
                 style={{ "--brand": profile.brand } as CSSProperties}
                 onMouseEnter={(event) => open(profile, event.currentTarget)}
@@ -255,6 +256,7 @@ export default function ConnectRow() {
         <a
           href={RESUME_HREF}
           data-cuelume-tap=""
+          data-cuelume-hover=""
           data-cuelume-emphasis="subtle"
           className="inline-flex translate-y-[2px] items-center gap-1"
         >
@@ -279,7 +281,7 @@ export default function ConnectRow() {
                   github?.avatar &&
                   githubAvatarOk
                     ? github.avatar
-                    : "/images/profile-image.jpg"
+                    : "/images/profile.png"
                 }
                 alt={active.name ?? "Anish"}
                 width={136}

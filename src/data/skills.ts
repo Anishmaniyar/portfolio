@@ -80,24 +80,21 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    id: "frontend",
-    label: "Frontend",
-    skills: [
-      { id: "react", name: "React", brand: "#61DAFB" },
-      { id: "nextjs", name: "Next.js", brand: "#FFFFFF" },
-      { id: "tailwind", name: "Tailwind CSS", brand: "#38BDF8" },
-    ],
-  },
-  {
     id: "backend",
     label: "Backend",
     skills: [
       { id: "nodejs", name: "Node.js", brand: "#5FA04E" },
       { id: "express", name: "Express.js", brand: "#FFFFFF" },
-      { id: "postgresql", name: "PostgreSQL", brand: "#4169E1" },
-      { id: "prisma", name: "Prisma", brand: "#FFFFFF" },
-      { id: "redis", name: "Redis", brand: "#DC382D" },
       { id: "bullmq", name: "BullMQ", brand: "#5CE1E6" },
+    ],
+  },
+  {
+    id: "databases",
+    label: "Databases",
+    skills: [
+      { id: "postgresql", name: "PostgreSQL", brand: "#4169E1" },
+      { id: "redis", name: "Redis", brand: "#DC382D" },
+      { id: "prisma", name: "Prisma", brand: "#FFFFFF" },
     ],
   },
   {
@@ -122,10 +119,19 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     id: "validation-docs",
-    label: "Validation & docs",
+    label: "Validation & Docs",
     skills: [
       { id: "zod", name: "Zod", brand: "#408AFF" },
       { id: "swagger", name: "Swagger", brand: "#85EA2D" },
+    ],
+  },
+  {
+    id: "frontend",
+    label: "Frontend",
+    skills: [
+      { id: "react", name: "React", brand: "#61DAFB" },
+      { id: "nextjs", name: "Next.js", brand: "#FFFFFF" },
+      { id: "tailwind", name: "Tailwind CSS", brand: "#38BDF8" },
     ],
   },
 ];

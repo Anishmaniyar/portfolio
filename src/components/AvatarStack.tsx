@@ -11,14 +11,11 @@ import Image from "next/image";
  * four background photos peek out from behind and spread slightly on
  * hover. No motion library is installed, so easing is pure CSS.
  *
- * NOTE — intended asset paths (not yet in this repo):
- *   main portrait -> /images/profile.png
- *   backgrounds   -> /images/avatars/avatar-1.png … avatar-4.png
- * Until those files are added, the existing photographs below are
- * used so nothing renders broken. Swap the `src` values only.
+ * The main portrait is /images/profile.png (also the favicon source);
+ * the four background photographs live in /images/avatars/.
  */
 const GALLERY = [
-  { src: "/images/profile-image.jpg", alt: "Anish" },
+  { src: "/images/profile.png", alt: "Anish" },
   { src: "/images/avatars/morales.jpg", alt: "Miles Morales" },
   { src: "/images/avatars/spider-gwen.jpg", alt: "Spider-Gwen" },
   { src: "/images/avatars/spidey.jpg", alt: "Spidey" },

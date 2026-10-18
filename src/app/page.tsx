@@ -1,7 +1,13 @@
+import type { CSSProperties } from "react";
 import AvatarStack from "../components/AvatarStack";
 import ConnectRow from "../components/ConnectRow";
+import QuoteSection from "../components/QuoteSection";
 import SkillsSection from "../components/SkillsSection";
+import SiteFooter from "../components/SiteFooter";
 import WorkSection from "../components/WorkSection";
+import WritingSection from "../components/WritingSection";
+import RailToc from "../components/ui/rail-toc";
+import { CONTACT_EMAIL, MEDIUM_HREF } from "../data/social";
 
 function VerifiedBadge() {
   return (
@@ -19,74 +25,122 @@ function VerifiedBadge() {
   );
 }
 
-function EyeIcon() {
+function MediumIcon() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
       aria-hidden="true"
-      className="shrink-0"
     >
-      <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-      <circle cx="12" cy="12" r="3" />
+      <path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75S24 8.83 24 12z" />
     </svg>
   );
 }
 
+function MailIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  );
+}
+
+/* Only sections that exist on this page, in page order. Experience,
+   Open Source, and Highlights are omitted until those sections
+   are built. */
+const TOC_ITEMS = [
+  { id: "about", label: "About" },
+  { id: "connect", label: "Socials" },
+  { id: "work", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "writing", label: "Writing" },
+];
+
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-black">
+      <RailToc items={TOC_ITEMS} title="INDEX" className="home-rail" />
       <main className="flex w-full flex-1 flex-col px-6">
         <div className="pt-16 pb-16">
-          <header className="flex flex-wrap items-center gap-4">
+          <header id="top" className="flex flex-wrap items-center gap-4">
             <AvatarStack />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
                 <h1>Anish</h1>
                 <VerifiedBadge />
               </div>
-              <div className="text-muted mt-1">
-                20 · Obsession · FAFO Builder
-              </div>
-            </div>
-            <div className="text-muted flex shrink-0 items-center gap-1.5">
-              <EyeIcon />
-              <span>0</span>
+              <div className="text-muted mt-1">Backend Engg</div>
             </div>
           </header>
 
-          <section aria-label="About" className="about-section">
-            <div className="about-lead">Backend Engineer</div>
-            <ul className="about-text">
-              <li>
-                I build software, explore ideas, and figure things out by
-                shipping.
-              </li>
-              <li>
-                I&apos;d rather build and break things than just talk about
-                them.
-              </li>
-              <li>
-                Currently building projects and working toward becoming a
-                stronger engineer.
-              </li>
-            </ul>
+          <section
+            id="about"
+            aria-label="About"
+            className="about-section scroll-mt-24"
+          >
+            <div className="about-text">
+              <p>FAFO builder — I&apos;d rather build and break things.</p>
+              <p>Into system design and the stuff that breaks in prod.</p>
+              <p>
+                Reach me via email{" "}
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  aria-label="Email me"
+                  className="about-link"
+                  data-cuelume-tap=""
+                  data-cuelume-hover=""
+                  data-cuelume-emphasis="subtle"
+                  style={{ "--brand": "#ffffff" } as CSSProperties}
+                >
+                  <MailIcon />
+                </a>{" "}
+                . Read my blogs on Medium{" "}
+                <a
+                  href={MEDIUM_HREF}
+                  aria-label="Read my blogs on Medium"
+                  className="about-link"
+                  data-cuelume-tap=""
+                  data-cuelume-hover=""
+                  data-cuelume-emphasis="subtle"
+                  style={{ "--brand": "#ffffff" } as CSSProperties}
+                >
+                  <MediumIcon />
+                </a>
+                .
+              </p>
+            </div>
           </section>
 
-          <section aria-label="Connect" className="connect-section">
+          <section
+            id="connect"
+            aria-label="Connect"
+            className="connect-section scroll-mt-24"
+          >
             <ConnectRow />
           </section>
 
           <WorkSection />
 
           <SkillsSection />
+
+          <WritingSection />
+
+          <QuoteSection />
         </div>
+        <SiteFooter />
       </main>
     </div>
   );

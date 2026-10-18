@@ -61,3 +61,9 @@ export const SOCIAL_PROFILES: SocialProfile[] = [
 
 /** Served from `public/resume.pdf` — add the file to enable the link. */
 export const RESUME_HREF = "/resume.pdf";
+
+/** Contact email used by the About line's email icon. */
+export const CONTACT_EMAIL = "anishmaniyar4@gmail.com";
+
+/** Medium profile URL used by the About line's Medium logo. */
+export const MEDIUM_HREF = "https://medium.com/@anishmaniyar4";

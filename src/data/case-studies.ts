@@ -35,6 +35,15 @@ export interface DiagramNode {
   sub: string;
 }
 
+export interface ArchitectureImage {
+  src: string;
+  alt: string;
+  caption: string;
+  /** Intrinsic pixel size, so next/image reserves the right box. */
+  width: number;
+  height: number;
+}
+
 export interface EngineeringHighlight {
   title: string;
   body: string;
@@ -52,6 +61,8 @@ export interface CaseStudy {
   problem: string;
   solution: string;
   diagram: DiagramNode[];
+  /** System-design PNGs served from /public/architecture. */
+  architectureImages?: ArchitectureImage[];
   flow: string;
   highlights: EngineeringHighlight[];
   testing?: string;
@@ -89,6 +100,15 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         title: "Worker pool · concurrency 5",
         sub: "Runs handlers · writes outcomes to Postgres",
+      },
+    ],
+    architectureImages: [
+      {
+        src: "/architecture/zolt-architecture.webp",
+        alt: "Zolt distributed job scheduler architecture diagram",
+        caption: "Zolt — distributed job scheduler architecture",
+        width: 1536,
+        height: 1024,
       },
     ],
     flow: "The API writes job state to PostgreSQL and nothing else. Each tick, the scheduler finds due jobs through a (status, run_at) index, flips them SCHEDULED → QUEUED, and bulk-enqueues into BullMQ. A worker fetches the job row, creates an execution record, runs the registered handler, and writes the outcome back to PostgreSQL.",
@@ -147,6 +167,15 @@ export const CASE_STUDIES: CaseStudy[] = [
         sub: "Users · topics · sessions · attempts · sheets",
       },
     ],
+    architectureImages: [
+      {
+        src: "/architecture/ascend-architecture.webp",
+        alt: "Ascend aptitude platform architecture diagram",
+        caption: "Ascend — aptitude platform architecture",
+        width: 1518,
+        height: 1036,
+      },
+    ],
     flow: "Requests travel one way down the layers: routes parse, controllers delegate, services validate and orchestrate — wrapping multi-step writes such as sheet creation in a Prisma transaction — and repositories execute the Prisma queries against PostgreSQL.",
     highlights: [
       {
@@ -177,7 +206,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Blood-donation lifecycle in one relational system: donor → donation → unit → transfer.",
     tech: ["typescript", "react", "nodejs", "express", "postgresql", "prisma"],
     repo: "https://github.com/Anishmaniyar/Cruor",
-    live: "https://cruor-drops.vercel.app",
+    live: "https://cruor-drop.vercel.app/",
     problem:
       "Blood-donation work fragments naturally: scheduling, donation records, unit inventory, and cross-hospital requests drift into disconnected processes, partial writes corrupt the lifecycle, and a single status field cannot represent several hospitals responding to one request.",
     solution:
@@ -196,6 +225,22 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         title: "PostgreSQL",
         sub: "Users · hospitals · donations · units · requests",
+      },
+    ],
+    architectureImages: [
+      {
+        src: "/architecture/cruor-donor-flow.webp",
+        alt: "Cruor donor user flow diagram",
+        caption: "Cruor — donor user flow",
+        width: 1536,
+        height: 1024,
+      },
+      {
+        src: "/architecture/cruor-hospital-flow.webp",
+        alt: "Cruor hospital user flow diagram",
+        caption: "Cruor — hospital user flow",
+        width: 1536,
+        height: 1024,
       },
     ],
     flow: "Recording a donation wraps the donation record, its blood unit, and the source appointment or registration update in a single transaction — the workflow can never persist a donation without its unit. A hospital's inventory is derived from its blood units rather than stored as a separate count.",

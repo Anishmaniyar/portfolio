@@ -1,59 +1,22 @@
 import {
   PROJECTS,
   TECH_LABELS,
-  type Project,
   type TechId,
 } from "../data/projects";
 import { TECH_BRANDS } from "../data/skills";
 import Link from "next/link";
 import TechCue from "./TechCue";
+import { ProjectIcon } from "./project-icons";
 
 /*
  * Work section: minimal, typography-focused project list.
  * Server Component (static content, no interactivity needed).
  *
- * No icon library is installed in this repo, so logos and tech marks
- * are small inline monochrome SVGs (currentColor) — no images,
- * no new dependencies.
+ * Project marks are original layered SVG icons (warm ivory on the dark
+ * container) from `./project-icons`; tech logos remain small inline
+ * monochrome SVGs (currentColor). No icon library, no images, no new
+ * dependencies.
  */
-
-function LogoMark({ id }: { id: Project["id"] }) {
-  const common = {
-    width: 22,
-    height: 22,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.8,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    "aria-hidden": true,
-  } as const;
-
-  if (id === "zolt") {
-    // Lightning bolt — job scheduler / fast background work.
-    return (
-      <svg {...common}>
-        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-      </svg>
-    );
-  }
-  if (id === "ascend") {
-    // Upward trend — aptitude / placement growth.
-    return (
-      <svg {...common}>
-        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-        <polyline points="16 7 22 7 22 13" />
-      </svg>
-    );
-  }
-  // Droplet — blood donation platform.
-  return (
-    <svg {...common}>
-      <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z" />
-    </svg>
-  );
-}
 
 export function TechMark({ id }: { id: TechId }) {
   const label = TECH_LABELS[id];
@@ -192,18 +155,19 @@ export default function WorkSection() {
         {PROJECTS.map((project) => (
           <li key={project.id} className="work-row">
             <div className="work-logo" aria-hidden="true">
-              <LogoMark id={project.id} />
+              <ProjectIcon id={project.id} />
             </div>
             <div className="work-main">
               <div className="work-top">
                 <h3 className="work-name">{project.name}</h3>
                 <Link
                   href={project.href}
-                  aria-label={`View more about ${project.name}`}
+                  aria-label={`Open ${project.name}`}
                   className="work-link"
                   data-cuelume-navigate=""
+                  data-cuelume-hover=""
+                  data-cuelume-emphasis="subtle"
                 >
-                  View more{" "}
                   <span aria-hidden="true" className="work-arrow">
                     ↗
                   </span>

@@ -5,6 +5,8 @@ import {
   getCaseStudy,
 } from "../../../data/case-studies";
 import CaseStudyPage from "../../../components/case-study/CaseStudy";
+import SiteFooter from "../../../components/SiteFooter";
+import { OG_IMAGE, SITE_NAME } from "../../../data/site";
 
 /*
  * The page content is fully static per slug (see generateStaticParams),
@@ -26,9 +28,27 @@ export async function generateMetadata({
   const { slug } = await params;
   const study = getCaseStudy(slug);
   if (!study) return {};
+  const title = `${study.name} · ${SITE_NAME}`;
   return {
-    title: `${study.name} · Anish`,
+    title: study.name,
     description: study.tagline,
+    alternates: {
+      canonical: `/work/${slug}`,
+    },
+    openGraph: {
+      type: "article",
+      siteName: SITE_NAME,
+      title,
+      description: study.tagline,
+      url: `/work/${slug}`,
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: study.tagline,
+      images: [OG_IMAGE.url],
+    },
   };
 }
 
@@ -46,6 +66,7 @@ export default async function WorkCaseStudyPage({
         <div className="pt-16 pb-16">
           <CaseStudyPage study={study} />
         </div>
+        <SiteFooter />
       </main>
     </div>
   );

@@ -81,7 +81,7 @@ export const PROJECTS: Project[] = [
       "Blood donation and hospital inventory platform for donor engagement, blood traceability, and cross-hospital coordination.",
     href: "/work/cruor",
     repo: "https://github.com/Anishmaniyar/Cruor",
-    live: "https://cruor-drops.vercel.app",
+    live: "https://cruor-drop.vercel.app/",
     tech: ["typescript", "react", "nodejs", "express", "postgresql", "prisma"],
   },
 ];
