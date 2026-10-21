@@ -3,11 +3,41 @@
 :root {
   color-scheme: dark;
 
-  /* Monochrome color system */
-  --background: #000000;
-  --foreground: #fafafa;
-  --muted: #a1a1a1;
+  /* Monochrome color system (dark is the default) */
+  --background: #0a0a0a;
+
+  /* Theme-aware text hierarchy tokens */
+  --text-primary: #e9e9e9;
+  --text-secondary: #a6a6a6;
+  --text-tertiary: #858585;
+  --text-label: #8a8a8a;
+  --text-link: var(--text-primary);
+  --text-link-hover: #f2f2f2;
+  --text-active: #f2f2f2;
+  --text-focus: #b8b8b8;
+
+  /* Icons keep the muted dark-mode grays; light mode gets its own
+     near-charcoal set so stroke/fill marks stay visible. */
+  --icon-primary: var(--text-primary);
+  --icon-secondary: var(--text-secondary);
+  --icon-tertiary: var(--text-tertiary);
+  --icon-hover: var(--text-secondary);
+  --icon-opacity: 0.7;
+
+  /* Aliases kept for the existing type scale and Tailwind utilities */
+  --foreground: var(--text-primary);
+  --muted: var(--text-secondary);
+
   --border: #262626;
+  --border-strong: #3a3a3a;
+  --surface: #101010;
+  --surface-subtle: #0d0d0d;
+  --surface-raised: #1a1a1a;
+  --hover-wash: rgba(255, 255, 255, 0.03);
+  --accent: var(--text-primary);
+  --quote: var(--text-primary);
+  --shadow: rgba(0, 0, 0, 0.6);
+  --icon-filter: none;
 
   /* Layout system. `--content-max` is the width of the centred content
      column (see `main`); the rail tokens place the desktop "INDEX"
@@ -24,10 +54,52 @@
   --font-body: "Google Sans Flex", sans-serif;
 }
 
+/* Light mode: same monochrome system, inverted. The theme attribute is
+   set before paint by an inline script (see app/layout.tsx); dark stays
+   the default when nothing is stored. */
+html[data-theme="light"] {
+  color-scheme: light;
+
+  /* Warm off-white paper, charcoal type */
+  --background: #faf9f6;
+  --text-primary: #111111;
+  --text-secondary: #575757;
+  --text-tertiary: #707070;
+  --text-label: #6a6a6a;
+  --text-link: var(--text-primary);
+  --text-link-hover: #111111;
+  --text-active: #111111;
+  --text-focus: #767676;
+
+  --icon-primary: #000000;
+  --icon-secondary: #000000;
+  --icon-tertiary: #000000;
+  --icon-hover: #000000;
+  --icon-opacity: 1;
+
+  --foreground: var(--text-primary);
+  --muted: var(--text-secondary);
+
+  --border: #e7e4de;
+  --border-strong: #cdc9c2;
+  --surface: #f3f1ec;
+  --surface-subtle: #f6f4ef;
+  --surface-raised: #fffdf9;
+  --hover-wash: rgba(0, 0, 0, 0.03);
+  --accent: var(--text-primary);
+  --quote: var(--text-primary);
+  --shadow: rgba(0, 0, 0, 0.12);
+  /* Project marks are warm-ivory PNGs; flip them to dark for light mode. */
+  --icon-filter: invert(1) hue-rotate(180deg);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-tertiary: var(--text-tertiary);
+  --color-label: var(--text-label);
+  --color-link: var(--text-link);
   --color-border: var(--border);
   --font-sans: var(--font-body);
 }
@@ -99,8 +171,9 @@ p:last-child {
   font-size: 13px;
   line-height: 20px;
   letter-spacing: 0;
-  color: var(--muted);
+  color: var(--text-primary);
   margin: 0 0 12px;
+  text-wrap: pretty;
 }
 
 .about-text p:last-child {
@@ -167,15 +240,19 @@ b {
 }
 
 a {
-  color: inherit;
+  color: var(--text-link);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: var(--border);
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--border-strong);
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
 }
 
 a:hover {
-  color: var(--foreground);
-  text-decoration-color: var(--muted);
+  color: var(--text-link-hover);
+  text-decoration-color: var(--text-secondary);
 }
 
 hr {
@@ -248,7 +325,7 @@ video {
 }
 
 .work-row:hover {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: var(--hover-wash);
 }
 
 .work-logo {
@@ -260,13 +337,17 @@ video {
   flex-shrink: 0;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: #101010;
+  background: var(--surface);
   color: var(--foreground);
   transition: border-color 0.2s ease;
 }
 
 .work-row:hover .work-logo {
-  border-color: #3a3a3a;
+  border-color: var(--border-strong);
+}
+
+.work-logo img {
+  filter: var(--icon-filter);
 }
 
 .work-main {
@@ -276,7 +357,7 @@ video {
 
 .work-top {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
@@ -296,24 +377,31 @@ video {
   text-underline-offset: 3px;
 }
 
+/* Arrow link: 38px hit area around a 21px glyph. Negative margins keep the
+   row height and the icon's far-right position unchanged. */
 .work-link {
   flex-shrink: 0;
-  white-space: nowrap;
-  font-size: 13px;
-  line-height: 20px;
-  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin: -9px -8px -9px 0;
+  border-radius: 8px;
+  color: var(--icon-secondary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .work-link:hover {
-  color: #fff;
+  color: var(--accent);
   text-decoration: none;
 }
 
 .work-link .work-arrow {
-  display: inline-block;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.22s ease;
 }
 
@@ -322,7 +410,7 @@ video {
 }
 
 .work-link:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -343,7 +431,7 @@ video {
   list-style: none;
   margin: 10px 0 0;
   padding: 0;
-  color: var(--muted);
+  color: var(--icon-tertiary);
 }
 
 .work-tech li {
@@ -351,15 +439,23 @@ video {
   margin: 0;
   line-height: 0;
   border-radius: 4px;
+  transition: color 0.2s ease;
 }
 
 .work-tech li svg {
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.work-tech li:hover,
+.work-tech li:focus-visible {
+  color: var(--icon-hover);
 }
 
 .work-tech li:hover svg,
 .work-tech li:focus-visible svg {
-  color: var(--brand, var(--foreground));
+  transform: translateY(-2px);
 }
 
 .work-tech li:focus {
@@ -367,7 +463,7 @@ video {
 }
 
 .work-tech li:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
 }
 
@@ -381,7 +477,7 @@ video {
   padding: 4px 8px;
   border: 1px solid var(--border);
   border-radius: 8px;
-  background: #1a1a1a;
+  background: var(--surface-raised);
   color: var(--foreground);
   font-size: 12px;
   line-height: 18px;
@@ -408,17 +504,38 @@ video {
 @media (prefers-reduced-motion: reduce) {
   .work-logo,
   .work-link,
+  .work-arrow,
   .work-row,
+  .work-tech li svg,
   .work-tech li::after {
     transition: none;
   }
 }
 
-/* Connect row text: same muted tone, slightly larger */
+/* Connect row text: same intro tone, sitting directly under the About copy */
 .connect-text {
   font-size: 13px;
   line-height: 20px;
-  color: var(--muted);
+  color: var(--text-primary);
+  text-wrap: pretty;
+}
+
+/* Keep the contact and social lines in the same rhythm as the paragraphs
+   above instead of inheriting the 48px section gap. */
+.connect-section {
+  margin-top: 12px;
+}
+
+/* Inline text links sit inside the sentence: hairline underline, close to
+   the baseline, and tied to the text colour rather than the border grey. */
+.connect-text a:not(.connect-link) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+.connect-text a:not(.connect-link):hover {
+  text-decoration-color: currentColor;
 }
 
 /* Skills section: compact table-like category list */
@@ -441,7 +558,7 @@ video {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--muted);
+  color: var(--icon-secondary);
   font-size: 13px;
   line-height: 20px;
   white-space: nowrap;
@@ -458,7 +575,7 @@ video {
 }
 
 .see-more:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -486,7 +603,7 @@ video {
 }
 
 .skill-cat {
-  color: var(--muted);
+  color: var(--text-label);
   font-size: 13px;
   line-height: 20px;
 }
@@ -512,7 +629,7 @@ video {
   gap: 7px;
   padding: 1px 0;
   border-radius: 6px;
-  color: var(--muted);
+  color: var(--icon-secondary);
   font-size: 13px;
   line-height: 20px;
   transition:
@@ -543,7 +660,7 @@ video {
 }
 
 .skill-item:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
 }
 
@@ -626,34 +743,71 @@ video {
   margin: 0;
 }
 
-.cs-actions {
+.project-actions {
   display: flex;
   flex-shrink: 0;
-  gap: 8px;
+  align-items: center;
+  gap: 2px;
   padding-top: 4px;
 }
 
-.cs-btn {
+.project-action {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
-  color: var(--foreground);
-  font-size: 13px;
-  line-height: 20px;
+  color: var(--icon-secondary);
   text-decoration: none;
-  white-space: nowrap;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.cs-btn:hover {
-  border-color: #3a3a3a;
-  background-color: rgba(255, 255, 255, 0.04);
-  text-decoration: none;
+.project-action:hover,
+.project-action:focus-visible {
+  color: var(--foreground);
+}
+
+.project-action:focus-visible {
+  outline: 2px solid var(--text-focus);
+  outline-offset: 2px;
+}
+
+.project-action::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  z-index: 20;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--foreground);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.project-action:hover::after,
+.project-action:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-action,
+  .project-action::after {
+    transition: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -661,8 +815,19 @@ video {
     flex-direction: column;
   }
 
-  .cs-actions {
+  .project-actions {
     padding-top: 0;
+  }
+
+  /* Keep the leftmost tooltip inside the viewport */
+  .project-action:first-child::after {
+    left: 0;
+    transform: translateX(0) translateY(4px);
+  }
+
+  .project-action:first-child:hover::after,
+  .project-action:first-child:focus-visible::after {
+    transform: translateX(0) translateY(0);
   }
 }
 
@@ -686,7 +851,7 @@ video {
   padding: 24px;
   border: 1px dashed var(--border);
   border-radius: 14px;
-  color: var(--muted);
+  color: var(--text-tertiary);
   font-size: 13px;
   line-height: 20px;
   text-align: center;
@@ -707,7 +872,7 @@ video {
 .cs-node {
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #0d0d0d;
+  background: var(--surface-subtle);
   padding: 10px 14px;
 }
 
@@ -721,7 +886,7 @@ video {
 .cs-node-sub {
   font-size: 13px;
   line-height: 20px;
-  color: var(--muted);
+  color: var(--text-tertiary);
 }
 
 .cs-arrow {
@@ -742,7 +907,7 @@ video {
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: hidden;
-  background: #0d0d0d;
+  background: var(--surface-subtle);
 }
 
 .cs-arch-link {
@@ -765,7 +930,7 @@ video {
 .cs-arch-caption {
   padding: 10px 14px;
   border-top: 1px solid var(--border);
-  color: var(--muted);
+  color: var(--text-tertiary);
   font-size: 15px;
   line-height: 24px;
 }
@@ -822,6 +987,7 @@ video {
 }
 
 .cs-footer a {
+  color: var(--text-link);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -961,7 +1127,7 @@ button.pfp-slot {
 
 .pfp-main:focus-visible,
 .pfp-thumb-btn:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 4px;
 }
 
@@ -1050,8 +1216,27 @@ button.pfp-slot {
   margin-top: 12px;
 }
 
-/* Standalone icon links: no underline, icon only (overrides global `a`) */
+/* Social icon row: always a horizontal line, wraps between icons on
+   narrow screens instead of stacking one per line. */
+.connect-icons {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  vertical-align: middle;
+  gap: 2px;
+  margin-block: -3px;
+}
+
+/* Standalone icon links: no underline, icon only (overrides global `a`).
+   The link itself is the tap target — padding enlarges the hit area while
+   the SVG stays at its natural 18px size. */
 .connect-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: var(--icon-primary);
+  opacity: var(--icon-opacity);
   text-decoration: none;
   transition:
     color 0.2s ease,
@@ -1059,8 +1244,22 @@ button.pfp-slot {
 }
 
 .connect-link:hover {
+  opacity: 1;
   text-decoration: none;
   color: var(--brand, var(--foreground));
+}
+
+/* Social profile popover: themed surface instead of hardcoded dark. */
+.connect-popover {
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  box-shadow: 0 16px 48px var(--shadow);
+}
+
+.connect-popover-arrow {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-raised);
 }
 
 /* Section-navigation sidebar on the home page. On desktop it is pinned
@@ -1095,9 +1294,9 @@ button.pfp-slot {
   font-size: 11px;
   line-height: 16px;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text-label);
 }
 
 .index-list {
@@ -1117,18 +1316,18 @@ button.pfp-slot {
   display: inline-block;
   font-size: 13px;
   line-height: 20px;
-  color: var(--muted);
+  color: var(--text-tertiary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .index-link:hover {
-  color: var(--foreground);
+  color: var(--text-secondary);
   text-decoration: none;
 }
 
 .index-link.is-active {
-  color: var(--foreground);
+  color: var(--text-active);
 }
 
 .index-link:focus {
@@ -1136,7 +1335,7 @@ button.pfp-slot {
 }
 
 .index-link:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -1147,12 +1346,16 @@ button.pfp-slot {
   }
 }
 
-/* About inline icon links (blog / email): hover highlight only, no card */
+/* About inline icon links (blog / email): hover highlight only, no card.
+   Same 18px icons, baseline alignment and enlarged tap target as the
+   social links; padding + negative vertical margin keeps the line rhythm. */
 .about-link {
   display: inline-flex;
   align-items: center;
-  vertical-align: -3px;
-  color: inherit;
+  vertical-align: -4px;
+  padding: 4px;
+  margin: -4px -2px;
+  color: var(--icon-secondary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -1167,7 +1370,7 @@ button.pfp-slot {
 }
 
 .about-link:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -1207,14 +1410,18 @@ button.pfp-slot {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.2s ease;
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
 }
 
 .writing-link:hover {
-  color: var(--muted);
-  text-decoration: none;
+  color: var(--text-link-hover);
+  text-decoration-color: var(--text-secondary);
 }
 
 .writing-ext {
@@ -1236,7 +1443,7 @@ button.pfp-slot {
 }
 
 .writing-link:focus-visible {
-  outline: 2px solid var(--muted);
+  outline: 2px solid var(--text-focus);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -1246,7 +1453,7 @@ button.pfp-slot {
   white-space: nowrap;
   font-size: 13px;
   line-height: 20px;
-  color: var(--muted);
+  color: var(--text-tertiary);
 }
 
 .writing-desc {
@@ -1279,14 +1486,14 @@ button.pfp-slot {
   font-size: 18px;
   line-height: 28px;
   font-weight: 400;
-  color: #f2ecdf;
+  color: var(--quote);
 }
 
 .quote-attribution {
   margin: 12px 0 0;
   font-size: 13px;
   line-height: 20px;
-  color: var(--muted);
+  color: var(--text-tertiary);
 }
 
 /* Footer: two quiet columns — place/time left, views/copyright right */
@@ -1301,7 +1508,7 @@ button.pfp-slot {
   font-size: 11px;
   line-height: 18px;
   font-weight: 400;
-  color: var(--muted);
+  color: var(--text-tertiary);
 }
 
 .site-footer-col {
@@ -1316,11 +1523,12 @@ button.pfp-slot {
   text-align: right;
 }
 
-/* Place + local time read semibold; the visitor label stays regular and
-   only the number is emphasised. */
+/* Place + local time are the footer's most useful details; numbers stay
+   legible but the label text remains tertiary. */
 .site-footer-place,
 .site-footer-time {
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .site-footer-time {
@@ -1333,7 +1541,8 @@ button.pfp-slot {
 }
 
 .site-footer-count {
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 /* 404 page: same quiet, monochrome language as the rest of the site.
@@ -1353,9 +1562,9 @@ button.pfp-slot {
   font-size: 11px;
   line-height: 16px;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text-label);
 }
 
 .notfound-title {
@@ -1367,7 +1576,7 @@ button.pfp-slot {
   margin: 8px 0 0;
   max-width: 34ch;
   line-height: 20px;
-  color: var(--muted);
+  color: var(--text-secondary);
 }
 
 .notfound-link {
@@ -1375,17 +1584,18 @@ button.pfp-slot {
   display: inline-block;
   font-size: 13px;
   line-height: 20px;
-  color: var(--foreground);
+  color: var(--text-link);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: var(--border);
+  text-decoration-color: var(--border-strong);
   transition:
     color 0.2s ease,
     text-decoration-color 0.2s ease;
 }
 
 .notfound-link:hover {
-  text-decoration-color: var(--muted);
+  color: var(--text-link-hover);
+  text-decoration-color: var(--text-secondary);
 }
 
 @media (max-width: 640px) {
@@ -1412,4 +1622,61 @@ button.pfp-slot {
   .writing-ext {
     transition: none;
   }
+}
+
+/* Verified badge is an icon: follow the icon tokens rather than body text. */
+.verified-badge {
+  color: var(--icon-secondary);
+}
+
+/* Theme toggle: icon-only, no chrome. Sits opposite the profile photo. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--icon-tertiary);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--text-primary);
+}
+
+.theme-toggle:focus {
+  outline: none;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--text-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle {
+    transition: none;
+  }
+}
+
+/* In light mode the official white brand marks disappear against the
+   surface, so hover stays monochrome there. */
+html[data-theme="light"] .skill-item:hover,
+html[data-theme="light"] .skill-item:focus-visible,
+html[data-theme="light"] .skill-item:hover span,
+html[data-theme="light"] .skill-item:focus-visible span,
+html[data-theme="light"] .connect-link:hover {
+  color: var(--text-active);
+}
+
+/* Remaining inline SVGs that inherit link text rather than icon tokens. */
+html[data-theme="light"] .writing-ext,
+html[data-theme="light"] .connect-text a svg {
+  color: #000000;
 }

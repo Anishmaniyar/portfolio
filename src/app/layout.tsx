@@ -53,6 +53,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${bodyFont.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var t=localStorage.getItem("theme");var m=t==="light"||t==="dark"?t:"dark";document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m;}catch(e){}',
+          }}
+        />
         <SoundProvider />
         {children}
       </body>

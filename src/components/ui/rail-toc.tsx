@@ -51,6 +51,10 @@ const RailToc = ({
       // At the very bottom the last section is always the one in view,
       // even when there isn't enough content below it to cross the anchor.
       current = items.length - 1;
+    } else if (current === -1) {
+      // Before any section has crossed the anchor, the first one is the
+      // current context (About sits directly under the profile header).
+      current = 0;
     }
     if (current !== activeRef.current) {
       activeRef.current = current;
@@ -61,20 +65,32 @@ const RailToc = ({
   React.useEffect(() => {
     let frame = 0;
     const onScroll = () => {
-      if (pinnedRef.current !== null) pinnedRef.current = null;
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
         measure();
       });
     };
+    // A click pins its target through the programmatic smooth scroll; any
+    // deliberate scroll gesture releases the pin so tracking resumes.
+    const unpin = () => {
+      pinnedRef.current = null;
+    };
     measure();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("wheel", unpin, { passive: true });
+    window.addEventListener("touchmove", unpin, { passive: true });
+    window.addEventListener("pointerdown", unpin);
+    window.addEventListener("keydown", unpin);
     return () => {
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("wheel", unpin);
+      window.removeEventListener("touchmove", unpin);
+      window.removeEventListener("pointerdown", unpin);
+      window.removeEventListener("keydown", unpin);
     };
   }, [measure]);
 

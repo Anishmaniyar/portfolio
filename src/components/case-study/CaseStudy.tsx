@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CaseStudy } from "../../data/case-studies";
 import ArchitectureDiagram from "./ArchitectureDiagram";
+import ProjectActions from "./ProjectActions";
 
 /*
  * Shared case-study layout. Sections render only when the data
@@ -45,28 +46,7 @@ export default function CaseStudyPage({ study }: { study: CaseStudy }) {
             <p className="cs-tagline">{study.tagline}</p>
           </div>
           {study.repo || study.live ? (
-            <div className="cs-actions">
-              {study.repo ? (
-                <a
-                  href={study.repo}
-                  className="cs-btn"
-                  data-cuelume-tap=""
-                  data-cuelume-emphasis="subtle"
-                >
-                  View on GitHub <span aria-hidden="true">↗</span>
-                </a>
-              ) : null}
-              {study.live ? (
-                <a
-                  href={study.live}
-                  className="cs-btn"
-                  data-cuelume-tap=""
-                  data-cuelume-emphasis="subtle"
-                >
-                  Live <span aria-hidden="true">↗</span>
-                </a>
-              ) : null}
-            </div>
+            <ProjectActions repo={study.repo} live={study.live} />
           ) : null}
         </div>
       </header>

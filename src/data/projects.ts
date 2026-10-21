@@ -62,7 +62,15 @@ export const PROJECTS: Project[] = [
     description: "Job scheduling and execution with durable PostgreSQL state.",
     href: "/work/zolt",
     repo: "https://github.com/Anishmaniyar/Zolt",
-    tech: ["typescript", "nodejs", "express", "postgresql", "redis", "bullmq"],
+    tech: [
+      "typescript",
+      "nodejs",
+      "express",
+      "postgresql",
+      "prisma",
+      "redis",
+      "bullmq",
+    ],
   },
   {
     id: "ascend",
@@ -72,7 +80,7 @@ export const PROJECTS: Project[] = [
     href: "/work/ascend",
     repo: "https://github.com/Anishmaniyar/Ascend",
     live: "https://ascend-aptitude.vercel.app",
-    tech: ["javascript", "nodejs", "express", "prisma"],
+    tech: ["nodejs", "express", "postgresql", "prisma", "javascript", "react"],
   },
   {
     id: "cruor",
@@ -82,6 +90,6 @@ export const PROJECTS: Project[] = [
     href: "/work/cruor",
     repo: "https://github.com/Anishmaniyar/Cruor",
     live: "https://cruor-drop.vercel.app/",
-    tech: ["typescript", "react", "nodejs", "express", "postgresql", "prisma"],
+    tech: ["nodejs", "express", "postgresql", "prisma", "javascript", "react"],
   },
 ];

@@ -59,8 +59,9 @@ export const SOCIAL_PROFILES: SocialProfile[] = [
   },
 ];
 
-/** Served from `public/resume.pdf` — add the file to enable the link. */
-export const RESUME_HREF = "/resume.pdf";
+/** Public Google Drive copy of the resume. */
+export const RESUME_HREF =
+  "https://drive.google.com/file/d/1BUw3OF-p3X2KFFht_tZcGu4qZHPTgKj7/view?usp=sharing";
 
 /** Contact email used by the About line's email icon. */
 export const CONTACT_EMAIL = "anishmaniyar4@gmail.com";

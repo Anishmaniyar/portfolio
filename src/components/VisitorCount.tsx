@@ -12,18 +12,13 @@ import { useEffect, useState } from "react";
  *   1. a module-level promise ensures a single request per page load;
  *   2. a sessionStorage flag prevents re-counting across reloads.
  *
- * The number is read from a configurable endpoint and is only ever shown
- * as real when that endpoint returns a real value. Until then it simply
- * reads 0 — never a fabricated number presented as live.
- *
- * To connect a real counter, set NEXT_PUBLIC_VISITOR_COUNT_ENDPOINT to a
- * URL that accepts:
- *   GET  ?action=get  -> { count: number }
- *   POST ?action=hit  -> { count: number }  (increments once)
- * No secrets are involved (the value is public).
+ * Talks to the /api/visitor-count route (a thin proxy over CounterAPI
+ * that keeps the API token server-side). Override with
+ * NEXT_PUBLIC_VISITOR_COUNT_ENDPOINT if you want a different backend.
  */
 
-const ENDPOINT = process.env.NEXT_PUBLIC_VISITOR_COUNT_ENDPOINT ?? "";
+const ENDPOINT =
+  process.env.NEXT_PUBLIC_VISITOR_COUNT_ENDPOINT ?? "/api/visitor-count";
 const SESSION_KEY = "visitor-counted";
 
 let cached: number | null = null;

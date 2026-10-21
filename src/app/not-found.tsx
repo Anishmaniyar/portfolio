@@ -4,7 +4,7 @@ import SiteFooter from "../components/SiteFooter";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center bg-black">
+    <div className="flex min-h-screen flex-col items-center bg-background">
       <main className="flex w-full flex-1 flex-col px-6">
         <div className="notfound">
           <p className="notfound-code">404</p>

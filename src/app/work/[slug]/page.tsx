@@ -61,7 +61,7 @@ export default async function WorkCaseStudyPage({
   const study = getCaseStudy(slug);
   if (!study) notFound();
   return (
-    <div className="flex min-h-screen flex-col items-center bg-black">
+    <div className="flex min-h-screen flex-col items-center bg-background">
       <main className="flex w-full flex-1 flex-col px-6">
         <div className="pt-16 pb-16">
           <CaseStudyPage study={study} />
