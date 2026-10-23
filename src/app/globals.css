@@ -39,16 +39,8 @@
   --shadow: rgba(0, 0, 0, 0.6);
   --icon-filter: none;
 
-  /* Layout system. `--content-max` is the width of the centred content
-     column (see `main`); the rail tokens place the desktop "INDEX"
-     sidebar in the gutter to the right of that column. */
+  /* Width of the centred content column (see `main`). */
   --content-max: 720px;
-  --rail-gap: 48px;
-  --rail-inset: 64px;
-  /* Offset of the desktop "INDEX" sidebar. Kept level with the profile
-     header (and the About block right under it) rather than starting at
-     the Work section. */
-  --rail-top: 64px;
 
   /* Font family (value supplied by next/font/google variable) */
   --font-body: "Google Sans Flex", sans-serif;
@@ -1262,90 +1254,6 @@ button.pfp-slot {
   background: var(--surface-raised);
 }
 
-/* Section-navigation sidebar on the home page. On desktop it is pinned
-   to the viewport in the gutter right of the centred content column:
-   its left edge keeps a fixed gap from that column and its right edge a
-   fixed inset from the viewport, both derived from the column's own
-   dimensions, so it never overlaps the content and holds up at every
-   width where it is shown. It starts level with the profile header and
-   About block rather than the Work section, and being fixed it never
-   travels with the project rows. Deliberately unstyled: no card
-   background, border, or shadow. */
-.home-rail {
-  display: none;
-}
-
-@media (min-width: 1100px) {
-  .home-rail {
-    display: block;
-    position: fixed;
-    top: var(--rail-top);
-    left: calc(50% + (var(--content-max) / 2) + var(--rail-gap));
-    right: var(--rail-inset);
-    z-index: 30;
-    /* Never squeeze the labels; the box stretches between the content
-       column and the viewport edge, the text stays left-aligned. */
-    min-width: max-content;
-  }
-}
-
-.index-title {
-  margin: 0 0 12px;
-  font-size: 11px;
-  line-height: 16px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-label);
-}
-
-.index-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.index-list li {
-  margin: 0;
-}
-
-.index-link {
-  display: inline-block;
-  font-size: 13px;
-  line-height: 20px;
-  color: var(--text-tertiary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.index-link:hover {
-  color: var(--text-secondary);
-  text-decoration: none;
-}
-
-.index-link.is-active {
-  color: var(--text-active);
-}
-
-.index-link:focus {
-  outline: none;
-}
-
-.index-link:focus-visible {
-  outline: 2px solid var(--text-focus);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .index-link {
-    transition: none;
-  }
-}
-
 /* About inline icon links (blog / email): hover highlight only, no card.
    Same 18px icons, baseline alignment and enlarged tap target as the
    social links; padding + negative vertical margin keeps the line rhythm. */
@@ -1384,11 +1292,6 @@ button.pfp-slot {
 
 .writing-row {
   padding-block: 14px;
-  border-top: 1px solid var(--border);
-}
-
-.writing-row:last-child {
-  border-bottom: 1px solid var(--border);
 }
 
 .writing-top {
@@ -1400,16 +1303,13 @@ button.pfp-slot {
 
 .writing-title {
   margin: 0;
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 21px;
   font-weight: 500;
   color: var(--foreground);
 }
 
 .writing-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   color: var(--text-link);
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -1424,20 +1324,6 @@ button.pfp-slot {
   text-decoration-color: var(--text-secondary);
 }
 
-.writing-ext {
-  flex-shrink: 0;
-  transform: translateY(1px);
-  opacity: 0.6;
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
-}
-
-.writing-link:hover .writing-ext {
-  opacity: 1;
-  transform: translate(2px, -1px);
-}
-
 .writing-link:focus {
   outline: none;
 }
@@ -1448,19 +1334,17 @@ button.pfp-slot {
   border-radius: 4px;
 }
 
-.writing-date {
+.writing-meta {
+  display: flex;
   flex-shrink: 0;
-  white-space: nowrap;
-  font-size: 13px;
-  line-height: 20px;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 16px;
   color: var(--text-tertiary);
-}
-
-.writing-desc {
-  margin: 2px 0 0;
-  font-size: 13px;
-  line-height: 20px;
-  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .writing-empty {
@@ -1468,6 +1352,172 @@ button.pfp-slot {
   font-size: 15px;
   line-height: 24px;
   color: var(--muted);
+}
+
+/* Quiet link under the home article list */
+.writing-view-all {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.writing-view-all:hover {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.writing-view-all:focus {
+  outline: none;
+}
+
+.writing-view-all:focus-visible {
+  outline: 2px solid var(--text-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Blogs page: editorial index, titles left, metadata right */
+.blogs-back {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.blogs-back:hover {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.blogs-back:focus {
+  outline: none;
+}
+
+.blogs-back:focus-visible {
+  outline: 2px solid var(--text-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.blogs-header {
+  margin-bottom: 20px;
+}
+
+.blogs-header h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.blogs-topics-heading {
+  margin: 24px 0 4px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.blogs-topics-hash {
+  margin-right: 2px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.blogs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.blogs-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 18px;
+}
+
+.blogs-title {
+  min-width: 0;
+  margin: 0;
+  font-size: 15px;
+  line-height: 23px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--foreground);
+}
+
+.blogs-link {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.blogs-link:hover {
+  color: var(--text-link-hover);
+  text-decoration-color: var(--text-secondary);
+}
+
+.blogs-link:focus {
+  outline: none;
+}
+
+.blogs-link:focus-visible {
+  outline: 2px solid var(--text-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.blogs-meta {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .blogs-row {
+    flex-direction: column;
+    gap: 4px;
+    padding-block: 14px;
+  }
+
+  .blogs-title {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .blogs-meta {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .writing-view-all,
+  .blogs-back,
+  .blogs-link {
+    transition: none;
+  }
 }
 
 /* Quote: a quiet closing thought above the footer */
@@ -1618,8 +1668,7 @@ button.pfp-slot {
 
 @media (prefers-reduced-motion: reduce) {
   .about-link,
-  .writing-link,
-  .writing-ext {
+  .writing-link {
     transition: none;
   }
 }
@@ -1676,7 +1725,6 @@ html[data-theme="light"] .connect-link:hover {
 }
 
 /* Remaining inline SVGs that inherit link text rather than icon tokens. */
-html[data-theme="light"] .writing-ext,
 html[data-theme="light"] .connect-text a svg {
   color: #000000;
 }

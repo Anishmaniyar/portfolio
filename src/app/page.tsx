@@ -6,7 +6,6 @@ import SiteFooter from "../components/SiteFooter";
 import ThemeToggle from "../components/ThemeToggle";
 import WorkSection from "../components/WorkSection";
 import WritingSection from "../components/WritingSection";
-import RailToc from "../components/ui/rail-toc";
 import { CONTACT_EMAIL, MEDIUM_HREF } from "../data/social";
 
 function VerifiedBadge() {
@@ -61,21 +60,9 @@ function MailIcon() {
   );
 }
 
-/* Only sections that exist on this page, in page order. Experience,
-   Open Source, and Highlights are omitted until those sections
-   are built. */
-const TOC_ITEMS = [
-  { id: "about", label: "About" },
-  { id: "connect", label: "Socials" },
-  { id: "work", label: "Projects" },
-  { id: "skills", label: "Skills" },
-  { id: "writing", label: "Writing" },
-];
-
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background">
-      <RailToc items={TOC_ITEMS} title="INDEX" className="home-rail" />
       <main className="flex w-full flex-1 flex-col px-6">
         <div className="pt-16 pb-16">
           <header id="top" className="flex flex-wrap items-center gap-4">

@@ -1,34 +1,12 @@
-import { WRITING_POSTS } from "../data/writing";
+import Link from "next/link";
+import { LATEST_WRITING_POSTS } from "../data/writing";
 
 /*
- * Writing section: compact, typography-only list of articles.
+ * Writing section: compact, typography-only list of the latest articles.
  * Server Component (static, data-driven). Data lives in
  * `src/data/writing.ts`; an empty array shows a restrained placeholder
  * instead of invented posts.
- *
- * No icon library is installed, so the external-link indicator is a
- * small inline monochrome SVG (currentColor).
  */
-
-function ExternalIcon() {
-  return (
-    <svg
-      width="13"
-      height="13"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="writing-ext"
-    >
-      <path d="M7 17 17 7" />
-      <path d="M8 7h9v9" />
-    </svg>
-  );
-}
 
 export default function WritingSection() {
   return (
@@ -39,38 +17,52 @@ export default function WritingSection() {
     >
       <h2 id="writing-heading">Writing</h2>
 
-      {WRITING_POSTS.length === 0 ? (
+      {LATEST_WRITING_POSTS.length === 0 ? (
         <p className="writing-empty">Writing soon.</p>
       ) : (
-        <ul className="writing-list">
-          {WRITING_POSTS.map((post) => (
-            <li key={post.id} className="writing-row">
-              <div className="writing-top">
-                <h3 className="writing-title">
-                  {post.href ? (
-                    <a
-                      href={post.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="writing-link"
-                      data-cuelume-hover=""
-                      data-cuelume-emphasis="subtle"
-                    >
+        <>
+          <ul className="writing-list">
+            {LATEST_WRITING_POSTS.map((post) => (
+              <li key={post.id} className="writing-row">
+                <div className="writing-top">
+                  <h3 className="writing-title">
+                    {post.href ? (
+                      <a
+                        href={post.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="writing-link"
+                        data-cuelume-hover=""
+                        data-cuelume-emphasis="subtle"
+                      >
+                        {post.title}
+                      </a>
+                    ) : (
                       <span>{post.title}</span>
-                      <ExternalIcon />
-                    </a>
-                  ) : (
-                    <span>{post.title}</span>
-                  )}
-                </h3>
-                {post.date ? (
-                  <span className="writing-date">{post.date}</span>
-                ) : null}
-              </div>
-              <p className="writing-desc">{post.description}</p>
-            </li>
-          ))}
-        </ul>
+                    )}
+                  </h3>
+                  {post.date || post.readingTime ? (
+                    <div className="writing-meta">
+                      {post.date ? <span>{post.date}</span> : null}
+                      {post.readingTime ? (
+                        <span>{post.readingTime}</span>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/blogs"
+            className="writing-view-all"
+            data-cuelume-navigate=""
+            data-cuelume-hover=""
+            data-cuelume-emphasis="subtle"
+          >
+            View all blogs
+          </Link>
+        </>
       )}
     </section>
   );
